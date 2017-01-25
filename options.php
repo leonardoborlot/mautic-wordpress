@@ -24,6 +24,7 @@ function wpmautic_options_page()
 			<li>Mautic Dynamic Content: <code>[mautic type="content" slot="slot_name"]Default Text[/mautic]</code></li>
 			<li>Mautic Gated Video: <code>[mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]</code></li>
 			<li>Add or Remove Lead Tags <code>[mautic type="tags" values="addtag,-removetag"]</code></li>
+			<li>Mautic Focus:  <code>[mautic type="focus" id="1"]</code></li>			
 		</ul>
 		<h3>Quick Links</h3>
 		<ul>
