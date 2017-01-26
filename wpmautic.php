@@ -22,7 +22,7 @@ define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
 add_action('admin_menu', 'wpmautic_settings');
-add_action('wp_head', 'wpmautic_function');
+add_action('wp_footer', 'wpmautic_function');
 add_shortcode('mautic', 'wpmautic_shortcode');
 add_shortcode('mauticform', 'wpmautic_form_shortcode');
 add_shortcode('mauticfocus', 'wpmautic_focus_shortcode');
