@@ -159,7 +159,7 @@ function wpmautic_focus_shortcode( $atts )
 		return false;
 	}
 
-	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async></script>';
+	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async"></script>';
 }
 
 
