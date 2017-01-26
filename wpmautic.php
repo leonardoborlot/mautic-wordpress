@@ -3,7 +3,7 @@
  * Plugin Name: WP Mautic
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Mautic community, Luiz Eduardo
  * Author URI: http://mautic.org
  * License: GPL2
@@ -63,10 +63,10 @@ function wpmautic_function()
 
 		mt('send', 'pageview', {}, {
 		    onload: function() {
-		        console.log("Mautic Tracking Script loaded without errors!");
+		        console.log("Mautic Tracking Script loaded!");
 		    },
 		    onerror: function() {
-		        console.log("Ops! Error on loading Mautic Tracking Script!");
+		        console.log("Ops! Error on Mautic Tracking Script!");
 		    }
 		});
 </script>
@@ -81,7 +81,7 @@ JS;
  *  - form
  *  - content
  * example: [mautic type="form" id="1"]
-* example: [mautic type="focus" id="1"]
+ * example: [mautic type="focus" id="1"]
  * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
  * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
  *
@@ -159,7 +159,7 @@ function wpmautic_focus_shortcode( $atts )
 		return false;
 	}
 
-	return '<script type="text/javascript" src="' . $base_url . '//focus//' . $atts['id'] . '.js" charset="utf-8" async="async></script>';
+	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async></script>';
 }
 
 
