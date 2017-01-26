@@ -43,6 +43,8 @@ Tracking image works right after you finish step 5 of Installation above. That m
 
 Plugin adds more information (current url, referal url, page title, user language) to the image URL query encoded in base 64 (not humanly readable). This way your Mautic instance receives more valuable data.
 
+You can also view some information on javascript console if your tracking code works well.
+
 ### Mautic Forms
 
 To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
@@ -52,6 +54,16 @@ To load a Mautic Form to your WP post, insert this shortcode to the place you wa
 ```
 
 Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID = 3.
+
+### Mautic Focus
+
+To load a Mautic Focus to your post, insert this shortcode to the place you want the form to appear:
+
+```
+[mautic type="focus" id="1"]
+```
+
+Replace "1" with the focus ID you want to load. To get the ID of the focus, go to your Mautic, open the focus detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/focus/view/3 the ID = 3.
 
 ### Mautic Dynamic Content
 
