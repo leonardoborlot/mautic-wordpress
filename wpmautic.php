@@ -262,3 +262,16 @@ function mauticwordpress_wp_title( $title = '', $sep = '' ) {
 
 	return $title;
 }
+
+
+
+
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://github.com/luizeof/mautic-wordpress/',
+    __FILE__,
+    'mautic-wordpress'
+);
+
+//Optional: Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('master');
