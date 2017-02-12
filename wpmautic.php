@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: WP Mautic
- * Plugin URI: https://github.com/mautic/mautic-wordpress
+ * Plugin Name: Mautic for Wordpress
+ * Plugin URI: https://github.com/luizeof/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 1.2.0
- * Author: Mautic community, Luiz Eduardo
- * Author URI: http://mautic.org
- * License: GPL2
+ * Version: 2.0.0
+ * Author: luizeof
+ * Author URI: https://www.luizeof.com.br
+ * License: GPL3
  */
 
 // Prevent direct access to this file.
@@ -21,55 +21,56 @@ define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 // Store plugin main file path
 define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
-add_action('admin_menu', 'wpmautic_settings');
-add_action('wp_footer', 'wpmautic_function');
-add_shortcode('mautic', 'wpmautic_shortcode');
-add_shortcode('mauticform', 'wpmautic_form_shortcode');
-add_shortcode('mauticfocus', 'wpmautic_focus_shortcode');
+add_action('admin_menu', 'mauticwordpress_settings');
+add_action('wp_footer', 'mauticwordpress_function');
+add_shortcode('mautic', 'mauticwordpress_shortcode');
+add_shortcode('mauticform', 'mauticwordpress_form_shortcode');
+add_shortcode('mauticfocus', 'mauticwordpress_focus_shortcode');
 
-function wpmautic_settings()
+function mauticwordpress_settings()
 {
 	include_once(dirname(__FILE__) . '/options.php');
-	add_options_page('WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page');
+	add_options_page('Mautic', 'Mautic', 'manage_options', 'mauticwordpress', 'mauticwordpress_options_page');
 }
 
 /**
  * Settings Link in the ``Installed Plugins`` page
  */
-function wpmautic_plugin_actions( $links, $file ) {
+function mauticwordpress_plugin_actions( $links, $file ) {
 	if( $file == plugin_basename( VPMAUTIC_PLUGIN_FILE ) && function_exists( "admin_url" ) ) {
-		$settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __('Settings') . '</a>';
+		$settings_link = '<a href="' . admin_url( 'options-general.php?page=mauticwordpress' ) . '">' . __('Settings') . '</a>';
 		// Add the settings link before other links
 		array_unshift( $links, $settings_link );
 	}
 	return $links;
 }
-add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
+add_filter( 'plugin_action_links', 'mauticwordpress_plugin_actions', 10, 2 );
 
 /**
  * Writes Tracking JS to the HTML source of WP head
  */
-function wpmautic_function()
+function mauticwordpress_function()
 {
-	$options = get_option('wpmautic_options');
+	$options = get_option('mauticwordpress_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 
 	$mauticTrackingJS = <<<JS
+<!-- Begin Mautic for Wordpress Tracking -->
 <script>
-    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','{$base_url}/mtc.js','mt');
 
-		mt('send', 'pageview', {}, {
-		    onload: function() {
-		        console.log("Mautic Tracking Script loaded!");
-		    },
-		    onerror: function() {
-		        console.log("Ops! Error on Mautic Tracking Script!");
-		    }
-		});
+			(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+	        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+	        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','{$base_url}/mtc.js','mt');
+
+			mt('send', 'pageview', {}, {
+			    onload: function() {
+			        console.log("Mautic Tracking Script loaded!");
+			    }
+			});
+
 </script>
+<!-- End Mautic for Wordpress Tracking -->
 JS;
 
 	echo $mauticTrackingJS;
@@ -90,7 +91,7 @@ JS;
  *
  * @return string
  */
-function wpmautic_shortcode( $atts, $content = null )
+function mauticwordpress_shortcode( $atts, $content = null )
 {
 	$atts = shortcode_atts(array(
 	    'type' => null,
@@ -107,15 +108,15 @@ function wpmautic_shortcode( $atts, $content = null )
 	switch ($atts['type'])
 	{
 		case 'form':
-			return wpmautic_form_shortcode( $atts );
+			return mauticwordpress_form_shortcode( $atts );
 		case 'content':
-			return wpmautic_dwc_shortcode( $atts, $content );
+			return mauticwordpress_dwc_shortcode( $atts, $content );
         case 'video':
-            return wpmautic_video_shortcode( $atts );
+            return mauticwordpress_video_shortcode( $atts );
 							case 'tags':
-								return wpmautic_tags_shortcode( $atts );
+								return mauticwordpress_tags_shortcode( $atts );
 								case 'focus':
-									return wpmautic_focus_shortcode( $atts );
+									return mauticwordpress_focus_shortcode( $atts );
 	}
 
 	return false;
@@ -128,9 +129,9 @@ function wpmautic_shortcode( $atts, $content = null )
  * @param  array $atts
  * @return string
  */
-function wpmautic_form_shortcode( $atts )
+function mauticwordpress_form_shortcode( $atts )
 {
-	$options = get_option('wpmautic_options');
+	$options = get_option('mauticwordpress_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 	$atts = shortcode_atts(array('id' => ''), $atts);
 
@@ -149,9 +150,9 @@ function wpmautic_form_shortcode( $atts )
  * @param  array $atts
  * @return string
  */
-function wpmautic_focus_shortcode( $atts )
+function mauticwordpress_focus_shortcode( $atts )
 {
-	$options = get_option('wpmautic_options');
+	$options = get_option('mauticwordpress_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 	$atts = shortcode_atts(array('id' => ''), $atts);
 
@@ -170,9 +171,9 @@ function wpmautic_focus_shortcode( $atts )
  * @param  array $atts
  * @return string
  */
-function wpmautic_tags_shortcode( $atts )
+function mauticwordpress_tags_shortcode( $atts )
 {
-	$options = get_option('wpmautic_options');
+	$options = get_option('mauticwordpress_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 	$atts = shortcode_atts(array('values' => ''), $atts);
 
@@ -184,16 +185,16 @@ function wpmautic_tags_shortcode( $atts )
 }
 
 
-function wpmautic_dwc_shortcode( $atts, $content = null)
+function mauticwordpress_dwc_shortcode( $atts, $content = null)
 {
-	$options  = get_option('wpmautic_options');
+	$options  = get_option('mauticwordpress_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 	$atts     = shortcode_atts(array('slot' => ''), $atts, 'mautic');
 
 	return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
 }
 
-function wpmautic_video_shortcode( $atts )
+function mauticwordpress_video_shortcode( $atts )
 {
     $video_type = '';
     $atts = shortcode_atts(array(
@@ -246,7 +247,7 @@ function wpmautic_video_shortcode( $atts )
  * @param string $sep Optional separator.
  * @return string Filtered title.
  */
-function wpmautic_wp_title( $title = '', $sep = '' ) {
+function mauticwordpress_wp_title( $title = '', $sep = '' ) {
 	global $paged, $page;
 
 	if ( is_feed() )
@@ -261,3 +262,16 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 
 	return $title;
 }
+
+
+
+
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://github.com/luizeof/mautic-wordpress/',
+    __FILE__,
+    'mautic-wordpress'
+);
+
+//Optional: Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('master');
