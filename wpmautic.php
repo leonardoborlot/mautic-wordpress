@@ -3,7 +3,7 @@
  * Plugin Name: Mautic for Wordpress
  * Plugin URI: https://github.com/luizeof/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 2.0.0
+ * Version: 1.9.0
  * Author: luizeof
  * Author URI: https://www.luizeof.com.br
  * License: GPL3
@@ -49,27 +49,28 @@ add_filter( 'plugin_action_links', 'mauticwordpress_plugin_actions', 10, 2 );
 /**
  * Writes Tracking JS to the HTML source of WP head
  */
-function wpmautic_function()
+function mauticwordpress_function()
 {
 	$options = get_option('mauticwordpress_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 
 	$mauticTrackingJS = <<<JS
+<!-- Begin Mautic for Wordpress Tracking -->
 <script>
-    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','{$base_url}/mtc.js','mt');
 
-		mt('send', 'pageview', {}, {
-		    onload: function() {
-		        console.log("Mautic Tracking Script loaded!");
-		    },
-		    onerror: function() {
-		        console.log("Ops! Error on Mautic Tracking Script!");
-		    }
-		});
+			(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+	        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+	        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','{$base_url}/mtc.js','mt');
+
+			mt('send', 'pageview', {}, {
+			    onload: function() {
+			        console.log("Mautic Tracking Script loaded!");
+			    }
+			});
+
 </script>
+<!-- End Mautic for Wordpress Tracking -->
 JS;
 
 	echo $mauticTrackingJS;

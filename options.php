@@ -13,8 +13,8 @@ function mauticwordpress_options_page()
 		<h2>WP Mautic</h2>
 		<p><?php _e("Enable Base URL for Mautic Integration."); ?></p>
 		<form action="options.php" method="post">
-			<?php settings_fields('wpmautic_options'); ?>
-			<?php do_settings_sections('wpmautic'); ?>
+			<?php settings_fields('mauticwordpress_options'); ?>
+			<?php do_settings_sections('mauticwordpress'); ?>
 			<p><?php _e("Something like https://mautic.yourdomain.com"); ?></p>
 			<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 		</form>
@@ -48,9 +48,9 @@ function mauticwordpress_options_page()
 	<?php
 }
 
-add_action('admin_init', 'wpmautic_admin_init');
+add_action('admin_init', 'mauticwordpress_admin_init');
 
-function wpmautic_admin_init()
+function mauticwordpress_admin_init()
 {
 	register_setting( 'mauticwordpress_options', 'mauticwordpress_options', 'mauticwordpress_options_validate' );
 	add_settings_section('mauticwordpress_main', 'Main Settings', 'mauticwordpress_section_text', 'mauticwordpress');
