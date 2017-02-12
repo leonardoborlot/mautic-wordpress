@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-function wpmautic_options_page()
+function mauticwordpress_options_page()
 { ?>
 	<div>
 		<h2>WP Mautic</h2>
@@ -24,7 +24,7 @@ function wpmautic_options_page()
 			<li>Mautic Dynamic Content: <code>[mautic type="content" slot="slot_name"]Default Text[/mautic]</code></li>
 			<li>Mautic Gated Video: <code>[mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]</code></li>
 			<li>Add or Remove Lead Tags <code>[mautic type="tags" values="addtag,-removetag"]</code></li>
-			<li>Mautic Focus:  <code>[mautic type="focus" id="1"]</code></li>			
+			<li>Mautic Focus:  <code>[mautic type="focus" id="1"]</code></li>
 		</ul>
 		<h3>Quick Links</h3>
 		<ul>
@@ -52,24 +52,24 @@ add_action('admin_init', 'wpmautic_admin_init');
 
 function wpmautic_admin_init()
 {
-	register_setting( 'wpmautic_options', 'wpmautic_options', 'wpmautic_options_validate' );
-	add_settings_section('wpmautic_main', 'Main Settings', 'wpmautic_section_text', 'wpmautic');
-	add_settings_field('wpmautic_base_url', 'Mautic Base URL', 'wpmautic_base_url', 'wpmautic', 'wpmautic_main');
+	register_setting( 'mauticwordpress_options', 'mauticwordpress_options', 'mauticwordpress_options_validate' );
+	add_settings_section('mauticwordpress_main', 'Main Settings', 'mauticwordpress_section_text', 'mauticwordpress');
+	add_settings_field('mauticwordpress_base_url', 'Mautic URL', 'mauticwordpress_base_url', 'mauticwordpress', 'mauticwordpress_main');
 }
 
-function wpmautic_section_text()
+function mauticwordpress_section_text()
 {
 }
 
-function wpmautic_base_url()
+function mauticwordpress_base_url()
 {
-	$options = get_option('wpmautic_options');
-	echo "<input id='wpmautic_base_url' name='wpmautic_options[base_url]' size='40' type='text' placeholder='http://...' value='{$options['base_url']}' />";
+	$options = get_option('mauticwordpress_options');
+	echo "<input id='mauticwordpress_base_url' name='mauticwordpress_options[base_url]' size='240' style='width:100%;' type='text' placeholder='http://...' value='{$options['base_url']}' />";
 }
 
-function wpmautic_options_validate($input)
+function mauticwordpress_options_validate($input)
 {
-	$options = get_option('wpmautic_options');
+	$options = get_option('mauticwordpress_options');
 	$options['base_url'] = trim($input['base_url']);
 
 	return $options;
