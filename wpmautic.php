@@ -27,7 +27,7 @@ add_shortcode('mautic', 'mauticwordpress_shortcode');
 add_shortcode('mauticform', 'mauticwordpress_form_shortcode');
 add_shortcode('mauticfocus', 'mauticwordpress_focus_shortcode');
 
-function wpmautic_settings()
+function mauticwordpress_settings()
 {
 	include_once(dirname(__FILE__) . '/options.php');
 	add_options_page('Mautic', 'Mautic', 'manage_options', 'mauticwordpress', 'mauticwordpress_options_page');
