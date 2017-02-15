@@ -1,11 +1,11 @@
 Mautic WordPress plugin
 =======================
 
-[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.
+[Mautic](http://mautic.org) [Wordpress Plugin](https://github.com/luizeof/mautic-wordpress) inserts Mautic tracking image and forms to your wordpress website. Your Mautic instance will be able to track information about your visitors that way.
 
 ## Installation
 
-### Via WP administration
+### Via Wordpress
 
 Mautic - WordPress plugin [is listed](https://wordpress.org/plugins/wp-mautic/) in the in the official WordPress plugin repository. That makes it very easy to install it directly form WP administration.
 
