@@ -3,7 +3,7 @@
  * Plugin Name: Mautic for Wordpress
  * Plugin URI: https://github.com/luizeof/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: luizeof
  * Author URI: https://www.luizeof.com.br
  * License: GPL3
@@ -23,6 +23,7 @@ define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
 add_action('admin_menu', 'mauticwordpress_settings');
 add_action('wp_footer', 'mauticwordpress_function');
+add_action('wp_footer', 'mauticmasks_function',9999);
 add_shortcode('mautic', 'mauticwordpress_shortcode');
 add_shortcode('mauticform', 'mauticwordpress_form_shortcode');
 add_shortcode('mauticfocus', 'mauticwordpress_focus_shortcode');
@@ -75,6 +76,60 @@ JS;
 
 	echo $mauticTrackingJS;
 }
+
+
+
+/**
+ * Writes Mautic Form Masks
+ */
+function mauticmasks_function()
+{
+	$options = get_option('mauticwordpress_options');
+	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+
+	$mauticTrackingJS = <<<JS
+<!-- Begin Mautic for Wordpress Tracking -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+<script>
+
+jQuery(document).ready(function () {
+
+  'use strict'
+
+  // Aplica mascara no cpf
+  jQuery('input[id*="cpf"]').mask('000.000.000-00', {reverse: true})
+
+  // Aplica mascara no cnpj
+  jQuery('input[id*="cnpj"]').mask('00.000.000/0000-00', {reverse: true});
+
+  // Aplica mascara no telefone
+  jQuery('input[id*="telefone"], input[id*="tel"], input[id*="phone"]').mask('(00) 0000-0000')
+
+  // Aplica mascara para celular com nono digito
+  var SPMaskBehavior = function (val) {
+      return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009'
+    },
+    spOptions = {
+      onKeyPress: function (val, e, field, options) {
+        field.mask(SPMaskBehavior.apply({}, arguments), options)
+      }
+  }
+
+  jQuery('input[id*="celular"], input[id*="cel"], input[id*="mobile"]').mask(SPMaskBehavior, spOptions)
+
+});
+
+</script>
+<!-- End Mautic for Wordpress Tracking -->
+JS;
+
+	echo $mauticTrackingJS;
+}
+
+
+
+
+
 
 /**
  * Handle mautic shortcode. Must include a type attribute.
